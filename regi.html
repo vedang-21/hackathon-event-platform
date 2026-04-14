@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Registration | HACK-X</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="regi.css" />
+  </head>
+  <body>
+    <nav id="nav">
+      <div class="name">HACK-X</div>
+      <ul id="ul">
+        <li class="li"><a class="navlink" href="landing.html">Home</a></li>
+        <li class="li"><a class="navlink" href="events.html">Hackathons</a></li>
+        <li class="li"><a class="navlink" href="regi.html">Register</a></li>
+      </ul>
+    </nav>
+
+    <main class="wrap">
+      <section class="panel">
+        <div class="panelHead">
+          <div id="eventLogo" class="eventLogo"><span id="eventLogoText">HX</span></div>
+          <div>
+            <h1 class="title">Register for <span id="eventName">an event</span></h1>
+            <p class="subtitle">Fill the form and submit.</p>
+          </div>
+        </div>
+
+        <form id="regForm" name="order" onsubmit="return calculate();" novalidate>
+          <div class="grid">
+            <div class="field">
+              <label for="fullName">Full Name</label>
+              <input id="fullName" name="name" type="text" placeholder="Your name" />
+              <small class="err" id="errName"></small>
+            </div>
+
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="name@example.com" />
+              <small class="err" id="errEmail"></small>
+            </div>
+
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="10-digit number" />
+              <small class="err" id="errPhone"></small>
+            </div>
+
+            <div class="field">
+              <label for="college">College / Company</label>
+              <input id="college" name="address" type="text" placeholder="Your college" />
+              <small class="err" id="errCollege"></small>
+            </div>
+
+            <div class="field">
+              <label for="teamName">Team Name</label>
+              <input id="teamName" name="team" type="text" placeholder="Team name" />
+              <small class="err" id="errTeam"></small>
+            </div>
+
+            <div class="field">
+              <label for="teamSize">Team Size</label>
+              <select id="teamSize" name="pay">
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <small class="err" id="errSize"></small>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn" type="submit">Submit Registration</button>
+            <a class="btn ghost" href="events.html">Back to Events</a>
+          </div>
+        </form>
+
+        <p id="result" class="result"></p>
+      </section>
+    </main>
+
+    <script src="common.js"></script>
+  </body>
+</html>

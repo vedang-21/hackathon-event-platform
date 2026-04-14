@@ -36,6 +36,21 @@
     text-shadow: 0 0 8px #22D3EE;
 }
 
+/* NEW: links in navbar */
+.navlink{
+    color: inherit;
+    text-decoration: none;
+}
+
+.navlink:visited{
+    color: inherit;
+}
+
+.li:hover .navlink{
+    color: #22D3EE;
+    text-shadow: 0 0 8px #22D3EE;
+}
+
 body{
     background-color: #0F172A;
     margin: 0;
