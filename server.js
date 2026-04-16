@@ -131,8 +131,9 @@ function handleLogin(req, res) {
 }
 
 function serveStaticFile(req, res) {
-  var safePath = path.normalize(decodeURIComponent(req.url)).replace(/^\/+/, '');
+  var safePath = path.normalize(decodeURIComponent(req.url.split('?')[0])).replace(/^\/+/, '');
   if (safePath === '' || safePath === 'index.html') safePath = 'landing.html';
+  if (safePath === 'regi.html') safePath = 'regi.html'; // always serve regi.html for any query
   var filePath = path.join(STATIC_DIR, safePath);
 
   // Prevent directory traversal
