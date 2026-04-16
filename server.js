@@ -2,6 +2,8 @@
 
 var http = require('http');
 var mysql = require('mysql2');
+var path = require('path');
+var fs = require('fs');
 
 // MySQL connection (update as needed)
 var con = mysql.createConnection({
@@ -34,6 +36,9 @@ con.connect(function (err) {
     console.log('Table ready: users');
   });
 });
+
+// Directory to serve static files from
+var STATIC_DIR = __dirname;
 
 function sendJson(res, statusCode, obj) {
   res.writeHead(statusCode, {
@@ -125,22 +130,50 @@ function handleLogin(req, res) {
   });
 }
 
-function router(req, res) {
-  // Basic CORS-free API means same-origin is required.
-  // If you open login.html directly as a file, fetch may fail.
+function serveStaticFile(req, res) {
+  var safePath = path.normalize(decodeURIComponent(req.url)).replace(/^\/+/, '');
+  if (safePath === '' || safePath === 'index.html') safePath = 'landing.html';
+  var filePath = path.join(STATIC_DIR, safePath);
 
-  if (req.method === 'GET' && req.url === '/') {
-    return sendJson(res, 200, { ok: true, message: 'HACK-X Auth Server running' });
+  // Prevent directory traversal
+  if (!filePath.startsWith(STATIC_DIR)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
   }
 
+  fs.stat(filePath, function (err, stats) {
+    if (err || !stats.isFile()) {
+      res.writeHead(404);
+      res.end('Not found');
+      return;
+    }
+    var ext = path.extname(filePath).toLowerCase();
+    var type = 'text/plain';
+    if (ext === '.html') type = 'text/html';
+    else if (ext === '.css') type = 'text/css';
+    else if (ext === '.js') type = 'application/javascript';
+    else if (ext === '.json') type = 'application/json';
+    res.writeHead(200, { 'Content-Type': type });
+    fs.createReadStream(filePath).pipe(res);
+  });
+}
+
+function router(req, res) {
+  // Serve API endpoints
+  if (req.method === 'GET' && req.url === '/') {
+    return serveStaticFile({ ...req, url: '/landing.html' }, res);
+  }
   if (req.method === 'POST' && req.url === '/signup') {
     return handleSignup(req, res);
   }
-
   if (req.method === 'POST' && req.url === '/login') {
     return handleLogin(req, res);
   }
-
+  // Serve static files for GET requests
+  if (req.method === 'GET') {
+    return serveStaticFile(req, res);
+  }
   sendJson(res, 404, { ok: false, message: 'Not found' });
 }
 
