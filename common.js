@@ -68,3 +68,44 @@ if (document.getElementById('regForm')) {
 
   window.calculate = calculate;
 }
+
+// =====================
+// LOGIN VALIDATION
+// =====================
+if (document.getElementById('loginForm')) {
+  function login() {
+    var email = document.getElementById('loginEmail').value;
+    var pass = document.getElementById('loginPass').value;
+
+    if (email === '') {
+      alert('Email cannot be empty!');
+      return false;
+    }
+
+    if (email.indexOf(' ') != -1) {
+      alert('Email cannot contain spaces!');
+      return false;
+    }
+
+    if (email.indexOf('@') == -1 || email.indexOf('@') > email.indexOf('.')) {
+      alert('Email should contain @ and . !');
+      return false;
+    }
+
+    if (pass === '') {
+      alert('Password cannot be empty!');
+      return false;
+    }
+
+    if (pass.length < 6) {
+      alert('Password should be at least 6 characters!');
+      return false;
+    }
+
+    document.getElementById('loginResult').textContent = 'Login successful!';
+    document.getElementById('loginForm').reset();
+    return true;
+  }
+
+  window.login = login;
+}
